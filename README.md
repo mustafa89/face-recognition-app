@@ -1,7 +1,7 @@
 Face Recognition App
 ====================
 
-# A practice project built with React
+### A practice project built with React
 
 - `REACT`
 - `NODE`
