@@ -3,10 +3,10 @@ Face Recognition App
 
 # A practice project built with React
 
-- REACT
-- NODE
-- EXPRESS
-- PostgreSQL for the DB. 
+- `REACT`
+- `NODE`
+- `EXPRESS`
+- `PostgreSQL`
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
