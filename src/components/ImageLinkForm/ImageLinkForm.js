@@ -1,7 +1,7 @@
 import React from 'react'
 import './ImageLinkForm.css'
 
-const ImageLinkForm = ({ onInputChange }) => {
+const ImageLinkForm = ({ onInputChange, onButtonSubmit}) => {
     return (
         <div>
             <p className="white f3">
@@ -10,7 +10,8 @@ const ImageLinkForm = ({ onInputChange }) => {
             <div className='flex justify-center'>
             <div className='form shadow-5 ma2'>
                 <input className='f4 br2 pa3 ma3 mr0 w-50' type="text" onChange={onInputChange}/>
-                <button className='dark-gray w-20 pa3 ma1 bg-red grow hover-bg-dark-red ba b--moon-gray br3 white'>
+                <button className='dark-gray w-20 pa3 ma1 bg-red grow hover-bg-dark-red ba b--moon-gray br3 white'
+                onClick={onButtonSubmit}>
                     {'Detect'}
                 </button>
             </div>
