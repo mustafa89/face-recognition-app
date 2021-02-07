@@ -44,7 +44,7 @@ const particle_params = {
         "enable": true,
         "distance": 150,
         "color": "#3b841c",
-        "opacity": 0.7733646887996272,
+        "opacity": 1,
         "width": 1.1048066982851816
       },
       "move": {
