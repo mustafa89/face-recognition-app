@@ -4,7 +4,7 @@ import './ImageLinkForm.css'
 const ImageLinkForm = ({ onInputChange, onButtonSubmit}) => {
     return (
         <div>
-            <p className="white f3">
+            <p className="white f3 ">
                 {'This app will detect faces in your pictures. Give it a try.'}
             </p>
             <div className='flex justify-center'>
