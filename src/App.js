@@ -23,10 +23,31 @@ class App extends Component {
       imageUrl: '',
       imageData: {},
       route: 'signin',
-      isSignedIn: false
+      isSignedIn: false,
+      user: {
+        id: '',
+        fname: '',
+        lname: '',
+        email: '',
+        password: '',
+        entries: 0,
+        joined: ''
+      }
     }
   }
 
+  loadUser = user => {
+    this.setState({
+      user: {
+        id: user.id,
+        fname: user.fname,
+        lname: user.lname,
+        email: user.email,
+        entries: user.entries,
+        joined: user.joined
+      }
+    })
+  }
   CreateBox = image_data => {
     let image_id = document.getElementById('image')
     let width = image_id.width
@@ -50,11 +71,27 @@ class App extends Component {
     this.setState({ imageUrl: this.state.input })
     app.models
       .predict({ id: 'd02b4508df58432fbb84e800597b8959' }, this.state.input)
-      .then(response =>
+      .then(response => {
+        //update rank
+        if (response) {
+          fetch('http://localhost:3001/image', {
+            method: 'put',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({
+              id: this.state.user.id
+            })
+          }).then(response => response.json()).then(count => { 
+            // to update an object attribute and avoid destroying its state we use Object.assign
+            this.setState(
+              Object.assign(this.state.user, { entries: count})
+            )
+          })
+        }
+        //analyze image
         this.CreateBox(
           response.outputs[0].data.regions[0].region_info.bounding_box
         )
-      )
+        })
       .catch(err => console.log(err))
   }
 
@@ -67,7 +104,8 @@ class App extends Component {
     this.setState({route: route})
   }
   render () {
-    const { isSignedIn, imageUrl, imageData } = this.state
+    const { isSignedIn, imageUrl, imageData,  } = this.state
+    const { fname, lname, entries } = this.state.user
     return (
       <div className='App'>
         <Particles className='particles' params={particle_params} />
@@ -75,7 +113,7 @@ class App extends Component {
         {this.state.route === 'home' ? (
           <div>
             <Logo />
-            <Rank />
+            <Rank fname={fname} lname={lname} entries={entries}/>
             <ImageLinkForm
               onInputChange={this.onInputChange}
               onButtonSubmit={this.onButtonSubmit}
@@ -86,25 +124,13 @@ class App extends Component {
             />
           </div>
         ) : this.state.route === 'signin' ? (
-          <SignIn onRouteChange={this.onRouteChange} />
+          <SignIn loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
         ) : (
-          <Register onRouteChange={this.onRouteChange} />
+          <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
         )}
       </div>
     )
   }
 }
-
-// const options = {
-//   particles: {
-//     line_linked: {
-//       shadow: {
-//         enable: true,
-//         color: "#3CA9D1",
-//         blur: 5
-//       }
-//     }
-//   }
-// }
 
 export default App
