@@ -15,25 +15,27 @@ import Clarifai from 'clarifai'
 const app = new Clarifai.App({
   apiKey: '1a674a68cfb243e99477f0459092a003'
 })
+
+const initialState = {
+  input: '',
+  imageUrl: '',
+  imageData: {},
+  route: 'signin',
+  isSignedIn: false,
+  user: {
+    id: '',
+    fname: '',
+    lname: '',
+    email: '',
+    password: '',
+    entries: 0,
+    joined: ''
+  }
+}
 class App extends Component {
   constructor () {
     super()
-    this.state = {
-      input: '',
-      imageUrl: '',
-      imageData: {},
-      route: 'signin',
-      isSignedIn: false,
-      user: {
-        id: '',
-        fname: '',
-        lname: '',
-        email: '',
-        password: '',
-        entries: 0,
-        joined: ''
-      }
-    }
+    this.state = initialState
   }
 
   loadUser = user => {
@@ -97,7 +99,7 @@ class App extends Component {
 
   onRouteChange = (route) => {
     if(route === 'signin') {
-      this.setState({isSignedIn: false})
+      this.setState({initialState})
     } else if (route === 'home') {
       this.setState({isSignedIn: true})
     }
