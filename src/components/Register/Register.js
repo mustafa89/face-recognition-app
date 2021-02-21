@@ -1,7 +1,7 @@
 import React from 'react'
 
 class Register extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       email: '',
@@ -10,18 +10,18 @@ class Register extends React.Component {
       lname: ''
     }
   }
-    
-  onEmailChange = (event) => {
-    this.setState({email: event.target.value})
+
+  onEmailChange = event => {
+    this.setState({ email: event.target.value })
   }
-  onPasswordChange = (event) => {
-    this.setState({password: event.target.value})
+  onPasswordChange = event => {
+    this.setState({ password: event.target.value })
   }
-  onFnameChange = (event) => {
-    this.setState({fname: event.target.value})
+  onFnameChange = event => {
+    this.setState({ fname: event.target.value })
   }
-  onLnameChange = (event) => {
-    this.setState({lname: event.target.value})
+  onLnameChange = event => {
+    this.setState({ lname: event.target.value })
   }
 
   onRegister = () => {
@@ -37,16 +37,16 @@ class Register extends React.Component {
     })
       .then(response => response.json())
       .then(user => {
-         if (user){
-           this.props.loadUser(user)
-           this.props.onRouteChange('home')
-         } else {
-           console.log("whyyyy")
-         }
+        if (user.id) {
+          this.props.loadUser(user)
+          this.props.onRouteChange('home')
+        } else {
+          console.log('whyyyy')
+        }
       })
   }
 
-  render() {
+  render () {
     return (
       <article className='bg-white o-80 mw6 center br3 pa3 pa4-ns mv3 ba b--white-30 showdow-5'>
         <main className='pa4 black-80'>
@@ -103,7 +103,10 @@ class Register extends React.Component {
               </div>
             </fieldset>
             <div className='lh-copy mt3'>
-              <p onClick={this.onRegister} className='f6 link dim black db pointer ba w4 pa2 shadow-5 br2 center'>
+              <p
+                onClick={this.onRegister}
+                className='f6 link dim black db pointer ba w4 pa2 shadow-5 br2 center'
+              >
                 Register
               </p>
             </div>
@@ -112,7 +115,6 @@ class Register extends React.Component {
       </article>
     )
   }
-  
 }
 
 export default Register

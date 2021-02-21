@@ -10,11 +10,6 @@ import Register from './components/Register/Register'
 import 'tachyons'
 import Particles from 'react-particles-js'
 import particle_params from './particles'
-import Clarifai from 'clarifai'
-
-const app = new Clarifai.App({
-  apiKey: '1a674a68cfb243e99477f0459092a003'
-})
 
 const initialState = {
   input: '',
@@ -71,10 +66,15 @@ class App extends Component {
 
   onButtonSubmit = () => {
     this.setState({ imageUrl: this.state.input })
-    app.models
-      .predict({ id: 'd02b4508df58432fbb84e800597b8959' }, this.state.input)
+    fetch('http://localhost:3001/imageurl', {
+      method: 'post',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        input: this.state.input
+      })
+    })
+      .then(response => response.json())
       .then(response => {
-        //update rank
         if (response) {
           fetch('http://localhost:3001/image', {
             method: 'put',
@@ -82,53 +82,58 @@ class App extends Component {
             body: JSON.stringify({
               id: this.state.user.id
             })
-          }).then(response => response.json()).then(count => { 
-            // to update an object attribute and avoid destroying its state we use Object.assign
-            this.setState(
-              Object.assign(this.state.user, { entries: count})
-            )
           })
+            .then(response => response.json())
+            .then(count => {
+              //update rank
+              // to update an object attribute and avoid destroying its state we use Object.assign
+              this.setState(Object.assign(this.state.user, { entries: count }))
+            })
+            .catch(err => console.log(err))
         }
         //analyze image
         this.CreateBox(
           response.outputs[0].data.regions[0].region_info.bounding_box
         )
-        })
+      })
       .catch(err => console.log(err))
   }
 
-  onRouteChange = (route) => {
-    if(route === 'signin') {
-      this.setState({initialState})
+  onRouteChange = route => {
+    if (route === 'signin') {
+      this.setState({ initialState })
     } else if (route === 'home') {
-      this.setState({isSignedIn: true})
+      this.setState({ isSignedIn: true })
     }
-    this.setState({route: route})
+    this.setState({ route: route })
   }
   render () {
-    const { isSignedIn, imageUrl, imageData,  } = this.state
+    const { isSignedIn, imageUrl, imageData } = this.state
     const { fname, lname, entries } = this.state.user
     return (
       <div className='App'>
         <Particles className='particles' params={particle_params} />
-        <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange} />
+        <Navigation
+          isSignedIn={isSignedIn}
+          onRouteChange={this.onRouteChange}
+        />
         {this.state.route === 'home' ? (
           <div>
             <Logo />
-            <Rank fname={fname} lname={lname} entries={entries}/>
+            <Rank fname={fname} lname={lname} entries={entries} />
             <ImageLinkForm
               onInputChange={this.onInputChange}
               onButtonSubmit={this.onButtonSubmit}
             />
-            <FaceRecognition
-              imageUrl={imageUrl}
-              box={imageData}
-            />
+            <FaceRecognition imageUrl={imageUrl} box={imageData} />
           </div>
         ) : this.state.route === 'signin' ? (
           <SignIn loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
         ) : (
-          <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
+          <Register
+            loadUser={this.loadUser}
+            onRouteChange={this.onRouteChange}
+          />
         )}
       </div>
     )

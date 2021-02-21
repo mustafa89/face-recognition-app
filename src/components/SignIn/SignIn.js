@@ -27,14 +27,14 @@ class SignIn extends React.Component {
     })
       .then(response => response.json())
       .then(data => {
-         if (data.email === this.state.signInEmail) {
-          this.props.loadUser(data) 
+        if (data.email === this.state.signInEmail) {
+          this.props.loadUser(data)
           this.props.onRouteChange('home')
-         } else {
+        } else {
           this.setState({
             exists: false
           })
-         }
+        }
       })
   }
   render () {
@@ -44,35 +44,35 @@ class SignIn extends React.Component {
           <div className='measure center'>
             <fieldset id='sign_up' className='ba b--transparent ph0 mh0'>
               <legend className='f1 fw6 ph0 mh0'>Sign In</legend>
-              <form action="#">
-              <div className='mt3'>
-                <label className='db fw6 lh-copy f6' htmlFor='email-address'>
-                  Email
-                </label>
-                <input
-                  className='pa2 input-reset ba b--light-silver shadow-5 br2 bg-transparent hover-bg-black hover-white w-100'
-                  type='email'
-                  placeholder="Email Address"
-                  name='email-address'
-                  autoComplete="current-email"
-                  id='email-address'
-                  onChange={this.onEmailChange}
-                />
-              </div>
-              <div className='mv3'>
-                <label className='db fw6 lh-copy f6' htmlFor='password'>
-                  Password
-                </label>
-                <input
-                  className='pa2 input-reset ba b--light-silver shadow-5 br2 bg-transparent hover-bg-black hover-white w-100'
-                  type="password"
-                  placeholder="Password"
-                  name="password"
-                  autoComplete="current-password"
-                  id='password'
-                  onChange={this.onPasswordChange}
-                />
-              </div>
+              <form action='#'>
+                <div className='mt3'>
+                  <label className='db fw6 lh-copy f6' htmlFor='email-address'>
+                    Email
+                  </label>
+                  <input
+                    className='pa2 input-reset ba b--light-silver shadow-5 br2 bg-transparent hover-bg-black hover-white w-100'
+                    type='email'
+                    placeholder='Email Address'
+                    name='email-address'
+                    autoComplete='current-email'
+                    id='email-address'
+                    onChange={this.onEmailChange}
+                  />
+                </div>
+                <div className='mv3'>
+                  <label className='db fw6 lh-copy f6' htmlFor='password'>
+                    Password
+                  </label>
+                  <input
+                    className='pa2 input-reset ba b--light-silver shadow-5 br2 bg-transparent hover-bg-black hover-white w-100'
+                    type='password'
+                    placeholder='Password'
+                    name='password'
+                    autoComplete='current-password'
+                    id='password'
+                    onChange={this.onPasswordChange}
+                  />
+                </div>
               </form>
               <label className='pa0 ma0 lh-copy f6 pointer'>
                 <input type='checkbox' />
@@ -86,14 +86,16 @@ class SignIn extends React.Component {
                 type='submit'
                 value='Sign in'
               />
-              {this.state.exists ? (<p></p>) : (<p className="tc red">User not found. Have you registered yet?</p>)}
+              {this.state.exists ? (
+                <p></p>
+              ) : (
+                <p className='tc red'>
+                  User not found. Have you registered yet?
+                </p>
+              )}
             </div>
             <div className='lh-copy mt3'>
-              <p
-                className='f5 link dim black db pointer underline'
-              >
-                Register
-              </p>
+              <p className='f5 link dim black db pointer underline'>Register</p>
             </div>
           </div>
         </main>
